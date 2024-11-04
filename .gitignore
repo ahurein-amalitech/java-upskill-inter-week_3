@@ -1,0 +1,4 @@
+.idea
+services/git-local-config-repo
+**/**.properties
+data

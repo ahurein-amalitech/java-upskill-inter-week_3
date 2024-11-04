@@ -5,20 +5,17 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
-    @GetMapping
-    public String showHome(Model model) {
-        return "home";
+    @GetMapping("")
+    public String anonymousHello(){
+        return "Anonymous Hello";
     }
 
-    @GetMapping("/user")
-    public String showUsers(@AuthenticationPrincipal OAuth2User authentication, Model model) {
-        User user = new User();
-        user.setName(authentication.getName());
-        user.setEmail(authentication.getAttribute("email"));
-        model.addAttribute("user", user);
-        return "user";
+    @GetMapping("private")
+    public String privateHello(@AuthenticationPrincipal OAuth2User principal){
+        return "Good day: " + principal.getAttribute("name");
     }
 }
