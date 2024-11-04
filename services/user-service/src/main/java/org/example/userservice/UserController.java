@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,6 +19,11 @@ public class UserController {
     @GetMapping
     public Page<User> getAllUsers(@PageableDefault(page = 0, size = 10) Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<User> getUserById(@PathVariable("id") int id) {
+        return userRepository.findById(id);
     }
 
     @PostMapping

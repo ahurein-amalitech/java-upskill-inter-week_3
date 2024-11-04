@@ -1,52 +1,44 @@
-version: '3.8'
-
 services:
   user-service:
-    image: user-service:latest
+    image: w3-user-service:latest
     container_name: user-service
     build:
       context: ./user-service
       dockerfile: Dockerfile
     env_file: ./user-service/.env
-    ports:
-      - "8001:8001"
     networks:
       - service-network
     depends_on:
       - eureka-naming-server
       - config-server
   order-service:
-    image: order-service:latest
+    image: w3-order-service:latest
     container_name: order-service
     build:
       context: ./order-service
       dockerfile: Dockerfile
     env_file:
       - ./order-service/.env
-    ports:
-      - "8002:8002"
     networks:
       - service-network
     depends_on:
       - eureka-naming-server
       - config-server
   product-service:
-    image: product-service:latest
+    image: w3-product-service:latest
     container_name: product-service
     build:
       context: ./product-service
       dockerfile: Dockerfile
     env_file:
       - ./product-service/.env
-    ports:
-      - "8003:8003"
     networks:
       - service-network
     depends_on:
       - eureka-naming-server
       - config-server
   gateway:
-    image: gateway:latest
+    image: w3-gateway:latest
     container_name: gateway
     build:
       context: ./gateway
@@ -55,6 +47,8 @@ services:
       - ./gateway/.env
     networks:
       - service-network
+    ports:
+      - "8005:8005"
     depends_on:
       - eureka-naming-server
       - config-server
@@ -62,7 +56,7 @@ services:
       - order-service
       - user-service
   eureka-naming-server:
-    image: eureka-naming-server:latest
+    image: w3-eureka-naming-server:latest
     container_name: eureka-naming-server
     build:
       context: ./eureka-naming-server
@@ -74,15 +68,13 @@ services:
     networks:
       - service-network
   config-server:
-    image: config-server:latest
+    image: w3-config-server:latest
     container_name: config-server
     build:
       context: ./spring-cloud-config-server
       dockerfile: Dockerfile
     env_file:
       - ./spring-cloud-config-server/.env
-    ports:
-      - "8004:8004"
     networks:
       - service-network
 
